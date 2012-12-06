@@ -5,6 +5,9 @@ import cgitb
 from dbmanager import User, Message, Category
 from utils import log
 
+print "Content-Type: text/html"
+print
+
 cgitb.enable()
 
 version = 0.1
@@ -14,9 +17,6 @@ class Roio():
         # init the database
         log('Client connected')
         log('Preparing database')
-
-        print "Content-Type: text/html"
-        print
 
         """
         ACTIONS
@@ -47,7 +47,7 @@ class Roio():
         """
 
     def hello(self, form):
-        log("Let's say 'Hi!' to " + os.environ["REMOTE_ADDR"])
+        log("Let's say 'Hi!' to " + os.environ.get("REMOTE_ADDR", "0.0.0.0"))
         data = {
             'status': 'ok',
             'version': str(version)
@@ -161,9 +161,6 @@ class Roio():
             log('DB ERROR: ' + str(e))
         print json.dumps(categories)
         return
-
-    def __del__(self):
-        self.conn.close()
 
 form = cgi.FieldStorage()
 roio = Roio(form)

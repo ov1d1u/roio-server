@@ -55,7 +55,10 @@ class Message(object):
 	@classmethod
 	def get_latest(self):
 		message = store.find(Message).order_by(Desc(Message.timestamp))
-		return message[0]
+		if message.count():
+			return message[0]
+		else:
+			return Message('')
 
 class Category(object):
 	__storm_table__ = "content_categs"
